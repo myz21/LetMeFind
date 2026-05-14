@@ -1,2 +1,3 @@
 # LetMeFind
-E-Commerce Chatbot
+
+LetMeFind, e-ticaret ekosistemindeki statik arama yöntemlerini, kişiselleştirilmiş bir alışveriş danışmanına dönüştüren dinamik bir yapıdır. Kullanıcıların doğal dildeki karmaşık niyetlerini ve ihtiyaçlarını gelişmiş dil modelleriyle analiz eden sistem, yerel pazar yerlerinden topladığı güncel verileri derinlemesine işler. Teknik mimarisinde ürünler ve kullanıcılar arasındaki ilişkileri gelişmiş bir ağ yapısında haritalandırırken, her kullanıcı etkileşiminden anlık olarak öğrenen stratejik bir karar mekanizması üzerinden ilerler. Bu sayede sistem, her adımda daha isabetli sonuçlar üreten ve sürekli kendini optimize eden proaktif bir yapı sergiler.
