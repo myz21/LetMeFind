@@ -1,0 +1,3 @@
+# Proxy all API calls to the deployed backend.
+# The 200 status rewrites transparently — stage.js keeps using /api/* as-is.
+/api/*  https://letmefindbackend.netlify.app/api/:splat  200
