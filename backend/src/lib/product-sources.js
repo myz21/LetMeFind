@@ -1,29 +1,37 @@
 // Real product data sources configuration
 const PRODUCT_SOURCES = {
-  // RapidAPI Amazon Real-Time Product Search
+  // RapidAPI Amazon Real-Time Product Search (corrected endpoint)
   amazon: {
     enabled: Boolean(process.env.RAPIDAPI_KEY),
     baseUrl: 'https://real-time-amazon-data.p.rapidapi.com',
     headers: {
-      'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
-      'X-RapidAPI-Host': 'real-time-amazon-data.p.rapidapi.com'
+      'x-rapidapi-key': process.env.RAPIDAPI_KEY,
+      'x-rapidapi-host': 'real-time-amazon-data.p.rapidapi.com',
+      'Content-Type': 'application/json'
     }
   },
-  // eBay API via RapidAPI  
-  ebay: {
-    enabled: Boolean(process.env.RAPIDAPI_KEY),
-    baseUrl: 'https://ebay-product-search.p.rapidapi.com',
-    headers: {
-      'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
-      'X-RapidAPI-Host': 'ebay-product-search.p.rapidapi.com'
-    }
+  // Free FakeStore API - works without authentication
+  fakestore: {
+    enabled: true,
+    baseUrl: 'https://fakestoreapi.com',
   },
-  // Fallback to DummyJSON for development
+  // Free Platzi API - works without authentication
+  platzi: {
+    enabled: true,
+    baseUrl: 'https://api.escuelajs.co/api/v1',
+  },
+  // DummyJSON - reliable fallback
   dummy: {
     enabled: true,
     baseUrl: 'https://dummyjson.com/products'
   }
 };
+
+console.log('Product Sources Configuration:');
+console.log('- Amazon enabled:', PRODUCT_SOURCES.amazon.enabled);
+console.log('- FakeStore enabled:', PRODUCT_SOURCES.fakestore.enabled);
+console.log('- Platzi enabled:', PRODUCT_SOURCES.platzi.enabled);
+console.log('- DummyJSON enabled:', PRODUCT_SOURCES.dummy.enabled);
 
 async function fetchJson(url, options = {}) {
   const controller = new AbortController();
@@ -33,7 +41,7 @@ async function fetchJson(url, options = {}) {
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'LetMeFind/1.0',
-        Accept: 'application/json,text/plain,*/*',
+        Accept: 'application/json',
         ...options.headers,
       },
       ...options,
@@ -52,33 +60,50 @@ async function fetchJson(url, options = {}) {
 
 function normalizeAmazonProduct(product) {
   return {
-    id: product.asin || product.product_id || `amz_${Date.now()}`,
-    name: product.product_title || product.title || 'Amazon Product',
-    price: product.product_price || product.price || '$0',
-    usdPrice: parseFloat(String(product.product_price || product.price || '0').replace(/[^0-9.]/g, '')) || null,
-    rating: product.product_star_rating || product.rating || 0,
-    ratingLabel: `Puan ${Number(product.product_star_rating || product.rating || 0).toFixed(1)}`,
+    id: product.asin || `amz_${Date.now()}`,
+    name: product.product_title || 'Amazon Product',
+    price: product.product_price || '$0',
+    usdPrice: parseFloat(String(product.product_price || '0').replace(/[^0-9.]/g, '')) || null,
+    rating: product.product_star_rating || 0,
+    ratingLabel: `Puan ${Number(product.product_star_rating || 0).toFixed(1)}`,
     category: product.product_category || 'General',
-    description: product.product_description || product.about_product || 'No description available',
+    description: product.product_description || 'No description available',
     source: 'Amazon',
-    image: product.product_photo || product.image || '',
+    image: product.product_photo || '',
     url: product.product_url || `https://amazon.com/dp/${product.asin}`,
   };
 }
 
-function normalizeEbayProduct(product) {
+function normalizeFakeStoreProduct(product) {
   return {
-    id: product.itemId || product.id || `ebay_${Date.now()}`,
-    name: product.title || 'eBay Product',
-    price: product.price?.value ? `$${product.price.value}` : product.price || '$0',
-    usdPrice: parseFloat(product.price?.value || product.price || 0),
-    rating: product.feedbackScore ? Math.min(product.feedbackScore / 20, 5) : 0, // Convert to 5-star scale
-    ratingLabel: `Puan ${(product.feedbackScore ? Math.min(product.feedbackScore / 20, 5) : 0).toFixed(1)}`,
-    category: product.primaryCategory?.categoryName || 'General',
-    description: product.shortDescription || product.subtitle || 'No description available',
-    source: 'eBay',
-    image: product.image?.imageUrl || product.galleryURL || '',
-    url: product.viewItemURL || product.itemWebUrl || 'https://ebay.com',
+    id: `fakestore_${product.id}`,
+    name: product.title || 'FakeStore Product',
+    price: `$${product.price}`,
+    usdPrice: Number(product.price) || null,
+    rating: product.rating?.rate || 0,
+    ratingLabel: `Puan ${Number(product.rating?.rate || 0).toFixed(1)}`,
+    category: product.category || 'General',
+    description: product.description || 'No description available',
+    source: 'FakeStore',
+    image: product.image || '',
+    url: `https://fakestoreapi.com/products/${product.id}`,
+  };
+}
+
+function normalizePlatziProduct(product) {
+  const rating = Math.random() * 4 + 1; // Random rating between 1-5
+  return {
+    id: `platzi_${product.id}`,
+    name: product.title || 'Platzi Product',
+    price: `$${product.price}`,
+    usdPrice: Number(product.price) || null,
+    rating: rating,
+    ratingLabel: `Puan ${rating.toFixed(1)}`,
+    category: product.category?.name || 'General',
+    description: product.description || 'No description available',
+    source: 'Platzi',
+    image: product.images?.[0] || '',
+    url: `https://api.escuelajs.co/api/v1/products/${product.id}`,
   };
 }
 
@@ -104,95 +129,108 @@ async function fetchAmazonProducts(query) {
   }
 
   try {
-    const searchUrl = `${PRODUCT_SOURCES.amazon.baseUrl}/search`;
+    console.log('Trying Amazon API with correct endpoint...');
+    // Use the exact format from RapidAPI example
+    const searchUrl = `${PRODUCT_SOURCES.amazon.baseUrl}/search?query=${encodeURIComponent(query)}&page=1&country=US&sort_by=RELEVANCE&product_condition=ALL&is_prime=false&deals_and_discounts=NONE`;
+    
     const payload = await fetchJson(searchUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...PRODUCT_SOURCES.amazon.headers,
-      },
-      body: JSON.stringify({
-        query: query,
-        page: '1',
-        country: 'US',
-        sort_by: 'RELEVANCE',
-        product_condition: 'ALL'
-      }),
+      method: 'GET',
+      headers: PRODUCT_SOURCES.amazon.headers,
     });
 
-    return (payload.data?.products || []).slice(0, 10).map(normalizeAmazonProduct);
+    console.log('Amazon API response received');
+    const products = payload.data?.products || payload.products || [];
+    const results = products.slice(0, 10).map(normalizeAmazonProduct);
+    console.log(`Amazon returned ${results.length} products`);
+    return results;
   } catch (error) {
     console.warn('Amazon API failed:', error.message);
     return [];
   }
 }
 
-async function fetchEbayProducts(query) {
-  if (!PRODUCT_SOURCES.ebay.enabled) {
-    throw new Error('eBay API not configured');
-  }
-
+async function fetchFakeStoreProducts(query) {
   try {
-    const searchUrl = `${PRODUCT_SOURCES.ebay.baseUrl}/search?q=${encodeURIComponent(query)}&limit=10`;
-    const payload = await fetchJson(searchUrl, {
-      headers: PRODUCT_SOURCES.ebay.headers,
-    });
-
-    return (payload.items || []).map(normalizeEbayProduct);
+    console.log('Trying FakeStore API...');
+    const products = await fetchJson(`${PRODUCT_SOURCES.fakestore.baseUrl}/products`);
+    
+    // Filter products based on query
+    const queryLower = query.toLowerCase();
+    const filtered = products.filter(product => 
+      product.title.toLowerCase().includes(queryLower) ||
+      product.description.toLowerCase().includes(queryLower) ||
+      product.category.toLowerCase().includes(queryLower)
+    );
+    
+    const results = (filtered.length > 0 ? filtered : products.slice(0, 5))
+      .slice(0, 5)
+      .map(normalizeFakeStoreProduct);
+    
+    console.log(`FakeStore returned ${results.length} products`);
+    return results;
   } catch (error) {
-    console.warn('eBay API failed:', error.message);
+    console.warn('FakeStore API failed:', error.message);
+    return [];
+  }
+}
+
+async function fetchPlatziProducts(query) {
+  try {
+    console.log('Trying Platzi API...');
+    const products = await fetchJson(`${PRODUCT_SOURCES.platzi.baseUrl}/products?limit=20`);
+    
+    // Filter products based on query
+    const queryLower = query.toLowerCase();
+    const filtered = products.filter(product => 
+      product.title?.toLowerCase().includes(queryLower) ||
+      product.description?.toLowerCase().includes(queryLower) ||
+      product.category?.name?.toLowerCase().includes(queryLower)
+    );
+    
+    const results = (filtered.length > 0 ? filtered : products.slice(0, 5))
+      .slice(0, 5)
+      .map(normalizePlatziProduct);
+    
+    console.log(`Platzi returned ${results.length} products`);
+    return results;
+  } catch (error) {
+    console.warn('Platzi API failed:', error.message);
     return [];
   }
 }
 
 async function fetchDummyJsonProducts(query) {
-  // Detect category from query
-  const isFurnitureQuery = /sofa|table|chair|desk|cabinet|shelf|bed|wardrobe|furniture|mobilya|masa|koltuk|karyola/i.test(query);
-  const isLaptopQuery = /laptop|computer|notebook|bilgisayar/i.test(query);
-  const isPhoneQuery = /phone|mobile|telefon|iphone|samsung/i.test(query);
-  const isBeautyQuery = /beauty|makeup|cosmetic|güzellik|makyaj/i.test(query);
-  
-  let categoryProducts = [];
-  
-  if (isFurnitureQuery) {
-    // Get furniture category
-    const categoryPayload = await fetchJson('https://dummyjson.com/products/category/furniture?limit=10');
-    categoryProducts = (categoryPayload.products || []).map(normalizeDummyProduct);
-  } else if (isLaptopQuery) {
-    // Get laptops category
-    const categoryPayload = await fetchJson('https://dummyjson.com/products/category/laptops?limit=10');
-    categoryProducts = (categoryPayload.products || []).map(normalizeDummyProduct);
-  } else if (isPhoneQuery) {
-    // Get smartphones category
-    const categoryPayload = await fetchJson('https://dummyjson.com/products/category/smartphones?limit=10');
-    categoryProducts = (categoryPayload.products || []).map(normalizeDummyProduct);
-  } else if (isBeautyQuery) {
-    // Get beauty category
-    const categoryPayload = await fetchJson('https://dummyjson.com/products/category/beauty?limit=10');
-    categoryProducts = (categoryPayload.products || []).map(normalizeDummyProduct);
-  } else {
-    // Default search for other categories
-    const endpoint = `https://dummyjson.com/products/search?q=${encodeURIComponent(query || 'product')}`;
-    const payload = await fetchJson(endpoint);
-    categoryProducts = (payload.products || []).map(normalizeDummyProduct);
-  }
-  
-  // If we have category products, try to filter by specific query terms
-  if (categoryProducts.length > 0) {
-    const queryLower = query.toLowerCase();
-    const matched = categoryProducts.filter(p => 
-      p.name.toLowerCase().includes(queryLower) || 
-      p.description.toLowerCase().includes(queryLower) ||
-      // Add some fuzzy matching for Turkish queries
-      (queryLower.includes('günlük') && p.description.toLowerCase().includes('daily')) ||
-      (queryLower.includes('oyun') && p.description.toLowerCase().includes('gaming'))
-    );
+  try {
+    console.log('Trying DummyJSON...');
     
-    // Return matched results if found, otherwise return all category products
-    return matched.length > 0 ? matched : categoryProducts;
+    // Detect category from query
+    const isFurnitureQuery = /sofa|table|chair|desk|cabinet|shelf|bed|wardrobe|furniture|mobilya|masa|koltuk|karyola/i.test(query);
+    const isLaptopQuery = /laptop|computer|notebook|bilgisayar/i.test(query);
+    const isPhoneQuery = /phone|mobile|telefon|iphone|samsung/i.test(query);
+    const isBeautyQuery = /beauty|makeup|cosmetic|güzellik|makyaj/i.test(query);
+    
+    let endpoint;
+    if (isFurnitureQuery) {
+      endpoint = 'https://dummyjson.com/products/category/furniture?limit=10';
+    } else if (isLaptopQuery) {
+      endpoint = 'https://dummyjson.com/products/category/laptops?limit=10';
+    } else if (isPhoneQuery) {
+      endpoint = 'https://dummyjson.com/products/category/smartphones?limit=10';
+    } else if (isBeautyQuery) {
+      endpoint = 'https://dummyjson.com/products/category/beauty?limit=10';
+    } else {
+      endpoint = `https://dummyjson.com/products/search?q=${encodeURIComponent(query || 'product')}`;
+    }
+    
+    const payload = await fetchJson(endpoint);
+    const results = (payload.products || []).slice(0, 5).map(normalizeDummyProduct);
+    
+    console.log(`DummyJSON returned ${results.length} products`);
+    return results;
+  } catch (error) {
+    console.warn('DummyJSON API failed:', error.message);
+    return [];
   }
-  
-  return categoryProducts;
 }
 
 async function fetchProductMatches(query) {
@@ -201,14 +239,12 @@ async function fetchProductMatches(query) {
 
   console.log(`Searching for: "${query}"`);
 
-  // Try real APIs first if configured
+  // Try Amazon API first if enabled
   if (PRODUCT_SOURCES.amazon.enabled) {
     try {
-      console.log('Trying Amazon API...');
       const amazonProducts = await fetchAmazonProducts(query);
       results.push(...amazonProducts);
       if (amazonProducts.length > 0) sources.push('Amazon');
-      console.log(`Amazon returned ${amazonProducts.length} products`);
     } catch (error) {
       console.warn('Amazon search failed:', error.message);
     }
@@ -216,31 +252,36 @@ async function fetchProductMatches(query) {
     console.log('Amazon API disabled (no RAPIDAPI_KEY)');
   }
 
-  if (PRODUCT_SOURCES.ebay.enabled && results.length < 5) {
+  // Try FakeStore API if we need more results
+  if (PRODUCT_SOURCES.fakestore.enabled && results.length < 3) {
     try {
-      console.log('Trying eBay API...');
-      const ebayProducts = await fetchEbayProducts(query);
-      results.push(...ebayProducts);
-      if (ebayProducts.length > 0) sources.push('eBay');
-      console.log(`eBay returned ${ebayProducts.length} products`);
+      const fakeStoreProducts = await fetchFakeStoreProducts(query);
+      results.push(...fakeStoreProducts);
+      if (fakeStoreProducts.length > 0) sources.push('FakeStore');
     } catch (error) {
-      console.warn('eBay search failed:', error.message);
+      console.warn('FakeStore search failed:', error.message);
     }
-  } else {
-    console.log('eBay API disabled or skipped');
   }
 
-  // Fallback to DummyJSON if no real results or for development
+  // Try Platzi API if we need more results
+  if (PRODUCT_SOURCES.platzi.enabled && results.length < 3) {
+    try {
+      const platziProducts = await fetchPlatziProducts(query);
+      results.push(...platziProducts);
+      if (platziProducts.length > 0) sources.push('Platzi');
+    } catch (error) {
+      console.warn('Platzi search failed:', error.message);
+    }
+  }
+
+  // Fallback to DummyJSON if we still need more results
   if (results.length < 3) {
     try {
-      console.log('Trying DummyJSON fallback...');
       const dummyProducts = await fetchDummyJsonProducts(query);
-      console.log(`DummyJSON returned ${dummyProducts.length} products`);
       results.push(...dummyProducts);
       if (dummyProducts.length > 0) sources.push('DummyJSON');
     } catch (error) {
       console.error('DummyJSON search failed:', error.message);
-      console.error('Error details:', error);
     }
   }
 
