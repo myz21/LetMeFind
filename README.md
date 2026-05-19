@@ -93,8 +93,7 @@ Stage 1: DISCOVERY (discovery.html)
     User types search query
     ↓ Clicks search button
 Stage 2: THINKING (thinking.html)
-    AI analyzes query for 1.6 seconds
-    ↓ Auto-advances after timer
+    AI analyzes query (< 1s)
 Stage 3: RESULTS (results.html)
     Shows 3 best-matched products
     User selects filters
