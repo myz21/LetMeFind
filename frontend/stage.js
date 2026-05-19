@@ -1,3 +1,11 @@
+// ─── Backend configuration ───────────────────────────────────────────────────
+// Change apiBase to point to your deployed backend.
+// Use an empty string '' to fall back to relative paths (local dev).
+const CONFIG = {
+  apiBase: 'https://letmefindbackend.netlify.app',
+};
+// ─────────────────────────────────────────────────────────────────────────────
+
 const STAGE_QUERY_KEY = 'letmefind.query';
 const STAGE_PAYLOAD_KEY = 'letmefind.payload';
 const DEFAULT_QUERY = '60-80 cm arası çalışma masası, siyah, metal ayaklı';
@@ -25,7 +33,7 @@ function loadContext() {
 }
 
 async function fetchPayload(currentQuery) {
-  const response = await fetch(`/api/search?q=${encodeURIComponent(currentQuery)}`);
+  const response = await fetch(`${CONFIG.apiBase}/api/search?q=${encodeURIComponent(currentQuery)}`);
   if (!response.ok) {
     throw new Error(`search failed: ${response.status}`);
   }
@@ -103,7 +111,7 @@ function openGeminiPanel(payload) {
     appendMessage(text, 'user');
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch(`${CONFIG.apiBase}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

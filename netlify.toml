@@ -1,9 +1,0 @@
-[build]
-  publish = "frontend"        # serve from the project root (where the HTML files live)
-  command = ""         # no build step needed — plain HTML/JS/CSS
-
-[[redirects]]
-  from   = "/api/*"
-  to     = "https://letmefindbackend.netlify.app/api/:splat"
-  status = 200         # 200 = transparent proxy rewrite (not a browser redirect)
-  force  = true        # always proxy even if a matching file exists
