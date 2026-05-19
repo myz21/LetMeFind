@@ -1,0 +1,10 @@
+{
+  "name": "letmefind",
+  "private": true,
+  "version": "0.1.0",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node backend/src/server.js",
+    "start": "node backend/src/server.js"
+  }
+}
