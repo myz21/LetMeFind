@@ -345,7 +345,7 @@ function renderStage3(payload) {
   const summary = document.querySelector('section.max-w-6xl.mx-auto.mb-xxl p');
   if (summary) summary.textContent = currentPayload?.summary?.body || 'Canlı veriler hazır.';
 
-  const continueButton = document.querySelector('aside button');
+  const continueButton = document.getElementById('comparison-button');
   if (continueButton) {
     continueButton.textContent = 'KARŞILAŞTIRMAYA GEÇ';
     continueButton.addEventListener('click', () => {
