@@ -277,7 +277,7 @@ function renderStage3(payload) {
   // Normal results handling
   if (meta) meta.textContent = `Canlı katalogda bulunan ${items.length} ürün arasından ${Math.min(items.length, 3)} sonuç öne çıkarıldı.`;
 
-  const cards = document.querySelectorAll('main .grid.grid-cols-3.gap-gutter.items-stretch > div');
+  const cards = document.querySelectorAll('main .grid > div');
   cards.forEach((card, index) => {
     const item = items[index];
     if (!item) {
