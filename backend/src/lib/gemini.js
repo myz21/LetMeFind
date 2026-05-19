@@ -65,7 +65,7 @@ async function generateGeminiReply(body = {}) {
   try {
     console.log('Initializing Gemini API...');
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
 
     console.log('Sending request to Gemini...');
     const result = await model.generateContent(prompt);
@@ -148,7 +148,7 @@ User query: ${query}`;
   try {
     console.log(`[QuerySimplify] Simplifying query: "${query}"`);
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite' });
     const result = await model.generateContent(prompt);
     const simplified = result.response.text().trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
 
