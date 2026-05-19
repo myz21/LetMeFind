@@ -59,10 +59,17 @@ LetMeFind is a sophisticated product discovery platform that guides users throug
 ### Installation & Setup
 
 ```bash
-cd /home/ali/Projeler/LetMeFind
+git clone https://github.com/myz21/LetMeFind
+
+cd LetMeFind
+
+Get api key from gemini and rapidapi (both are free).
+Make sure that you have subscribed to Real-Time Amazon Data api from rapidapi (its free).
+
 
 # Create .env (if not exists)
 echo "GEMINI_API_KEY=your_key_here" > .env
+echo "RAPIDAPI_KEY=your_key_here" > .env
 
 # Start backend
 npm run dev
@@ -74,6 +81,7 @@ npm run dev
 
 ```env
 GEMINI_API_KEY=AIzaSy...    # Your Google Gemini API key
+RAPIDAPI_KEY=aAIzaSy...     # Your Rapid Api Key
 PORT=3000                   # Backend port (default)
 NODE_ENV=development        # or 'production'
 ```
