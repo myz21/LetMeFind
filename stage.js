@@ -250,12 +250,44 @@ function renderStage3(payload) {
   if (title) title.textContent = `'${queryText}' için en iyi seçenekler.`;
 
   const meta = document.querySelector('main p.font-body-lg');
-  if (meta) meta.textContent = `Canlı katalogda bulunan ${items.length} ürün arasından 3 sonuç öne çıkarıldı.`;
+  
+  // Handle empty results
+  if (items.length === 0 || (items.length === 1 && items[0].id === 'fallback_1')) {
+    if (meta) meta.textContent = `"${queryText}" için sonuç bulunamadı. Farklı anahtar kelimeler deneyin.`;
+    
+    // Hide product grid and show empty state
+    const productGrid = document.querySelector('main .grid.grid-cols-3.gap-gutter.items-stretch');
+    if (productGrid) {
+      productGrid.innerHTML = `
+        <div class="col-span-3 text-center py-xl">
+          <div class="text-6xl mb-md">🔍</div>
+          <h3 class="text-h2 mb-sm">Sonuç bulunamadı</h3>
+          <p class="text-secondary mb-lg">Bu arama için ürün bulunamadı. Farklı kelimeler deneyin:</p>
+          <div class="flex flex-wrap justify-center gap-sm">
+            <button class="px-md py-sm bg-surface-container rounded-full text-sm hover:bg-surface-container-high" onclick="window.location.href='discovery.html'">
+              Yeni arama
+            </button>
+          </div>
+        </div>
+      `;
+    }
+    return;
+  }
+
+  // Normal results handling
+  if (meta) meta.textContent = `Canlı katalogda bulunan ${items.length} ürün arasından ${Math.min(items.length, 3)} sonuç öne çıkarıldı.`;
 
   const cards = document.querySelectorAll('main .grid.grid-cols-3.gap-gutter.items-stretch > div');
   cards.forEach((card, index) => {
     const item = items[index];
-    if (!item) return;
+    if (!item) {
+      // Hide empty cards
+      card.style.display = 'none';
+      return;
+    }
+    
+    // Show and populate card
+    card.style.display = 'block';
     const image = card.querySelector('img');
     if (image && item.image) image.src = item.image;
     const name = card.querySelector('h2');
