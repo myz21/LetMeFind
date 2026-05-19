@@ -310,14 +310,14 @@ async function fetchProductMatches(query) {
     console.log('Amazon API disabled (no RAPIDAPI_KEY)');
   }
 
-  // Try FakeStore API if we need more results
-  if (PRODUCT_SOURCES.fakestore.enabled && results.length < 3) {
+  // Try DummyJSON first (best category-aware matching)
+  if (results.length < 3) {
     try {
-      const fakeStoreProducts = await fetchFakeStoreProducts(query);
-      results.push(...fakeStoreProducts);
-      if (fakeStoreProducts.length > 0) sources.push('FakeStore');
+      const dummyProducts = await fetchDummyJsonProducts(query);
+      results.push(...dummyProducts);
+      if (dummyProducts.length > 0) sources.push('DummyJSON');
     } catch (error) {
-      console.warn('FakeStore search failed:', error.message);
+      console.warn('DummyJSON search failed:', error.message);
     }
   }
 
@@ -332,14 +332,14 @@ async function fetchProductMatches(query) {
     }
   }
 
-  // Fallback to DummyJSON if we still need more results
-  if (results.length < 3) {
+  // Try FakeStore as last resort
+  if (PRODUCT_SOURCES.fakestore.enabled && results.length < 3) {
     try {
-      const dummyProducts = await fetchDummyJsonProducts(query);
-      results.push(...dummyProducts);
-      if (dummyProducts.length > 0) sources.push('DummyJSON');
+      const fakeStoreProducts = await fetchFakeStoreProducts(query);
+      results.push(...fakeStoreProducts);
+      if (fakeStoreProducts.length > 0) sources.push('FakeStore');
     } catch (error) {
-      console.error('DummyJSON search failed:', error.message);
+      console.warn('FakeStore search failed:', error.message);
     }
   }
 
