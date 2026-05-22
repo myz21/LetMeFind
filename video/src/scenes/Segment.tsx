@@ -8,11 +8,13 @@ import {
   spring,
   useCurrentFrame,
   useVideoConfig,
+  staticFile,
 } from 'remotion';
+
+
 import { Caption } from '../ui/Caption';
 import { Pill } from '../ui/Pill';
 import { Title } from '../ui/Title';
-import { ensureTtsFile } from '../tts/geminiTts';
 
 export const Segment: React.FC<{
   from: number;
@@ -61,24 +63,24 @@ export const Segment: React.FC<{
   });
   const zoomMix = Math.min(1, Math.max(0, zoomProgress)) * zoom;
 
-  const stitchSrc = requireAsset(stitchImage);
+// const stitchSrc = requireAsset(stitchImage);
 
   const ttsSrc = useMemo(() => {
     if (!enableTts) return null;
-    return ensureTtsFile({ text: narration, id: `${variant}` });
-  }, [enableTts, narration, variant]);
+    return staticFile(`tts/${variant}.mp3`);
+  }, [enableTts, variant]);
 
   return (
     <Sequence from={from} durationInFrames={duration}>
       <AbsoluteFill>
-        {sfx?.whoosh ? (
+        {/* {sfx?.whoosh ? (
           <Audio src={requireAsset(sfx.whoosh)} startFrom={0} volume={0.35} />
-        ) : null}
+        ) : null} */}
 
         {ttsSrc ? <Audio src={ttsSrc} startFrom={intro} volume={1.0} /> : null}
 
         <AbsoluteFill style={{ opacity: 0.92 }}>
-          <Img
+          {/* <Img
             src={stitchSrc}
             style={{
               width: '100%',
@@ -87,7 +89,7 @@ export const Segment: React.FC<{
               transform: `scale(${1 + 0.02 * zoomMix})`,
               filter: 'saturate(1.05) contrast(1.05)',
             }}
-          />
+          /> */}
           <AbsoluteFill
             style={{
               background:
@@ -150,7 +152,4 @@ export const Segment: React.FC<{
   );
 };
 
-function requireAsset(file: string): string {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  return require(`../../assets/${file}`);
-}
+};
