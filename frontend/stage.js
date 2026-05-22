@@ -1,8 +1,7 @@
 // ─── Backend configuration ───────────────────────────────────────────────────
-// Change apiBase to point to your deployed backend.
-// Use an empty string '' to fall back to relative paths (local dev).
+// Relative paths — API calls go to the same-origin Node server (localhost:3001).
 const CONFIG = {
-  apiBase: 'https://letmefindbackend.netlify.app',
+  apiBase: '',
 };
 // ─────────────────────────────────────────────────────────────────────────────
 

@@ -74,7 +74,7 @@ echo "RAPIDAPI_KEY=your_key_here" > .env
 # Start backend
 npm run dev
 
-# Visit http://localhost:3000
+# Visit http://localhost3000:3000
 ```
 
 ### Configuration (.env)

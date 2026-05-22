@@ -1,0 +1,7 @@
+# Docker image build bağlamından video/ ve git dosyalarını hariç tut
+video/
+.git/
+.gitignore
+*.md
+.env
+.vscode/
