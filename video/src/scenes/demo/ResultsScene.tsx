@@ -19,16 +19,6 @@ export const ResultsScene: React.FC<{ stitchImage: string }> = ({ stitchImage })
   return (
     <AbsoluteFill>
       <AbsoluteFill style={{ opacity: 0.95 }}>
-        <Img
-          src={requireAsset(stitchImage)}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            transform: `scale(${zoom})`,
-            filter: 'saturate(1.05) contrast(1.05)',
-          }}
-        />
         <AbsoluteFill style={{ background: 'linear-gradient(180deg, rgba(11,12,16,0.55), rgba(11,12,16,0.12), rgba(11,12,16,0.70))' }} />
       </AbsoluteFill>
 
@@ -54,8 +44,3 @@ export const ResultsScene: React.FC<{ stitchImage: string }> = ({ stitchImage })
     </AbsoluteFill>
   );
 };
-
-function requireAsset(file: string): string {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  return require(`../../../assets/${file}`);
-}
