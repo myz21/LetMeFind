@@ -4,12 +4,12 @@ import {
   Audio,
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from 'remotion';
 import { Caption } from '../../ui/Caption';
 import { Pill } from '../../ui/Pill';
-import { ensureTtsFile } from '../../tts/geminiTts';
 
 export const PromptScene: React.FC<{
   prompt: string;
@@ -30,10 +30,11 @@ export const PromptScene: React.FC<{
   const zoom = spring({ fps, frame: frame - zoomStart, config: { damping: 14, mass: 0.9 } });
   const zoomMix = Math.min(1, Math.max(0, zoomProgress)) * zoom;
 
+  // TTS is pre-generated via `npm run tts:generate` → public/tts/long.mp3
   const ttsSrc = useMemo(() => {
     if (!enableTts) return null;
-    return ensureTtsFile({ text: narration, id: `demo_prompt` });
-  }, [enableTts, narration]);
+    return staticFile('tts/long.mp3');
+  }, [enableTts]);
 
   return (
     <AbsoluteFill style={{ padding: 84 }}>
