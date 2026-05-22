@@ -12,7 +12,7 @@ import {
 import { Caption } from '../ui/Caption';
 import { Pill } from '../ui/Pill';
 import { Title } from '../ui/Title';
-import { ensureTtsFile } from '../tts/googleTts';
+import { ensureTtsFile } from '../tts/geminiTts';
 
 export const Segment: React.FC<{
   from: number;

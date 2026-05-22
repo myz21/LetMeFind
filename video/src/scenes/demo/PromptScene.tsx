@@ -9,7 +9,7 @@ import {
 } from 'remotion';
 import { Caption } from '../../ui/Caption';
 import { Pill } from '../../ui/Pill';
-import { ensureTtsFile } from '../../tts/googleTts';
+import { ensureTtsFile } from '../../tts/geminiTts';
 
 export const PromptScene: React.FC<{
   prompt: string;

@@ -10,7 +10,6 @@
     "render:demo": "npm run copy:generate && npm run remotion:render:demo"
   },
   "dependencies": {
-    "@google-cloud/text-to-speech": "^6.0.0",
     "@remotion/cli": "^4.0.0",
     "@remotion/google-fonts": "^4.0.0",
     "@remotion/media-utils": "^4.0.0",

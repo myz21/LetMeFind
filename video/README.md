@@ -82,14 +82,10 @@ Put your assets here:
 
 ### 2) Configure env
 In `video/.env`:
-- `GEMINI_API_KEY=...` (required for copy generation)
+- `GEMINI_API_KEY=...` (required for copy generation and TTS)
 - `ENABLE_TTS=1` (set 0 to disable TTS)
-
-For Google TTS auth (ONLY needed if ENABLE_TTS=1):
-
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS="/absolute/path/to/service-account.json"
-```
+- `GEMINI_MODEL=gemini-3.5-pro-tts` (optional, defaults to gemini-3.5-pro-tts)
+- `GEMINI_TTS_VOICE=tr-TR-Standard-A` (optional, defaults to tr-TR-Standard-A)
 
 ### 3) Render (one command)
 
