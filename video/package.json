@@ -1,9 +1,10 @@
 {
   "name": "letmefind-video",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
+    "copy:generate": "node scripts/generate-copy.mjs",
     "remotion:preview": "remotion studio src/index.ts",
     "remotion:render:ab": "remotion render src/index.ts LetMeFindAB out/letmefind_ab_youtube.mp4 --log=verbose"
   },

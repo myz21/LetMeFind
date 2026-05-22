@@ -8,6 +8,8 @@ const SegmentSchema = z.object({
   label: z.string(),
   prompt: z.string(),
   narration: z.string(),
+  title: z.string(),
+  cta: z.string(),
   stitchImage: z.string(),
 });
 
@@ -35,7 +37,6 @@ export const LetMeFindAB: React.FC<LetMeFindABProps> = (props) => {
 
   const half = Math.floor(durationInFrames / 2);
 
-  // Simple music fade in/out
   const musicVol = interpolate(
     frame,
     [0, fps * 1.0, durationInFrames - fps * 1.5, durationInFrames],
@@ -56,8 +57,10 @@ export const LetMeFindAB: React.FC<LetMeFindABProps> = (props) => {
           duration={half}
           variant="short"
           label={props.short.label}
+          title={props.short.title}
           prompt={props.short.prompt}
           narration={props.short.narration}
+          cta={props.short.cta}
           stitchImage={props.short.stitchImage}
           enableTts={props.enableTts}
           sfx={props.sfx}
@@ -67,8 +70,10 @@ export const LetMeFindAB: React.FC<LetMeFindABProps> = (props) => {
           duration={durationInFrames - half}
           variant="long"
           label={props.long.label}
+          title={props.long.title}
           prompt={props.long.prompt}
           narration={props.long.narration}
+          cta={props.long.cta}
           stitchImage={props.long.stitchImage}
           enableTts={props.enableTts}
           sfx={props.sfx}

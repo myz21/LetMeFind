@@ -1,5 +1,14 @@
 import React, { useMemo } from 'react';
-import { AbsoluteFill, Audio, Img, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
+import {
+  AbsoluteFill,
+  Audio,
+  Img,
+  Sequence,
+  interpolate,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+} from 'remotion';
 import { Caption } from '../ui/Caption';
 import { Pill } from '../ui/Pill';
 import { Title } from '../ui/Title';
@@ -10,29 +19,46 @@ export const Segment: React.FC<{
   duration: number;
   variant: 'short' | 'long';
   label: string;
+  title: string;
   prompt: string;
   narration: string;
+  cta: string;
   stitchImage: string;
   enableTts: boolean;
   sfx?: { whoosh?: string; click?: string };
-}> = ({ from, duration, variant, label, prompt, narration, stitchImage, enableTts, sfx }) => {
+}> = ({
+  from,
+  duration,
+  variant,
+  label,
+  title,
+  prompt,
+  narration,
+  cta,
+  stitchImage,
+  enableTts,
+  sfx,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const localFrame = frame - from;
 
-  // timings inside the 30s segment
-  const intro = Math.floor(2.0 * fps);
+  const intro = Math.floor(1.6 * fps);
   const zoomStart = Math.floor(4.0 * fps);
   const zoomEnd = Math.floor(10.0 * fps);
-  const outroStart = Math.floor(26.0 * fps);
+  const outroStart = Math.floor(25.5 * fps);
 
   const zoomProgress = interpolate(localFrame, [zoomStart, zoomEnd], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
 
-  const zoom = spring({ fps, frame: localFrame - zoomStart, config: { damping: 14, mass: 0.9 } });
+  const zoom = spring({
+    fps,
+    frame: localFrame - zoomStart,
+    config: { damping: 14, mass: 0.9 },
+  });
   const zoomMix = Math.min(1, Math.max(0, zoomProgress)) * zoom;
 
   const stitchSrc = requireAsset(stitchImage);
@@ -45,14 +71,12 @@ export const Segment: React.FC<{
   return (
     <Sequence from={from} durationInFrames={duration}>
       <AbsoluteFill>
-        {/* Segment SFX */}
         {sfx?.whoosh ? (
           <Audio src={requireAsset(sfx.whoosh)} startFrom={0} volume={0.35} />
         ) : null}
 
         {ttsSrc ? <Audio src={ttsSrc} startFrom={intro} volume={1.0} /> : null}
 
-        {/* Background stitch image */}
         <AbsoluteFill style={{ opacity: 0.92 }}>
           <Img
             src={stitchSrc}
@@ -64,26 +88,38 @@ export const Segment: React.FC<{
               filter: 'saturate(1.05) contrast(1.05)',
             }}
           />
-          <AbsoluteFill style={{ background: 'linear-gradient(90deg, rgba(11,12,16,0.88), rgba(11,12,16,0.35))' }} />
+          <AbsoluteFill
+            style={{
+              background:
+                'linear-gradient(90deg, rgba(11,12,16,0.88), rgba(11,12,16,0.35))',
+            }}
+          />
         </AbsoluteFill>
 
-        {/* UI overlay */}
-        <AbsoluteFill style={{ padding: 72, display: 'flex', flexDirection: 'column', gap: 24 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <AbsoluteFill
+          style={{
+            padding: 72,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 22,
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
             <Pill text={label} tone={variant === 'short' ? 'cyan' : 'violet'} />
             <Pill text="LetMeFind" tone="neutral" />
           </div>
 
-          <Title
-            text={variant === 'short' ? 'Hızlı sonuç, net seçim' : 'Detaylı istek, daha isabetli öneri'}
-            subtext={variant === 'short' ? 'Kısa Prompt Demo' : 'Uzun Prompt Demo'}
-            appearFrame={intro}
-          />
+          <Title text={title} subtext={variant === 'short' ? 'Kısa Prompt Demo' : 'Uzun Prompt Demo'} appearFrame={intro} />
 
-          {/* Prompt zoom highlight block */}
           <div
             style={{
-              marginTop: 18,
+              marginTop: 12,
               maxWidth: 980,
               borderRadius: 28,
               border: '1px solid rgba(255,255,255,0.12)',
@@ -91,22 +127,21 @@ export const Segment: React.FC<{
               padding: 24,
               transformOrigin: 'left top',
               transform: `scale(${1 + 0.25 * zoomMix}) translateY(${-(18 * zoomMix)}px)`,
-              boxShadow: zoomMix > 0.2 ? '0 30px 80px rgba(0,0,0,0.35)' : 'none',
+              boxShadow:
+                zoomMix > 0.2 ? '0 30px 80px rgba(0,0,0,0.35)' : 'none',
               backdropFilter: 'blur(10px)',
             }}
           >
             <Caption label="PROMPT" text={prompt} emphasize />
           </div>
 
-          {/* Turkish explanation caption */}
           <div style={{ marginTop: 'auto', maxWidth: 1180 }}>
             <Caption label="TÜRKÇE AÇIKLAMA" text={narration} />
           </div>
 
-          {/* Outro CTA */}
           {localFrame > outroStart ? (
             <div style={{ marginTop: 10 }}>
-              <Pill text={variant === 'short' ? 'Devam: Uzun Prompt →' : 'Sence hangisi daha iyi?'} tone={variant === 'short' ? 'neutral' : 'cyan'} />
+              <Pill text={cta} tone={variant === 'short' ? 'neutral' : 'cyan'} />
             </div>
           ) : null}
         </AbsoluteFill>
