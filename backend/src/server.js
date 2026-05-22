@@ -7,7 +7,7 @@ const path = require('path');
 const { URL } = require('url');
 const { buildSearchPayload, buildChatReply, getHealthPayload } = require('./lib/services');
 
-const rootDir = path.resolve(__dirname, '..', '..');
+const rootDir = process.cwd();
 const port = Number(process.env.PORT || 3000);
 
 const mimeTypes = {
