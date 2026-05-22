@@ -1,16 +1,16 @@
 {
   "short": {
     "label": "Kısa Prompt",
-    "prompt": "ANC’li, hafif ve öğrenci bütçesine uygun bir kulaklık öner. 3 seçenek yaz.",
-    "narration": "Kısa bir promptla hızlıca sonuca gidiyoruz: ANC, hafiflik ve bütçe. LetMeFind en uygun seçenekleri saniyeler içinde öne çıkarır.",
-    "title": "Hızlı Sor, Hızlı Seç",
-    "cta": "Sen olsan hangisini denersin?"
+    "prompt": "Öğrenci işi ucuz ANC kulaklık önerisi?",
+    "narration": "Kütüphanede gürültüden odaklanamıyor musun? Hem cebini yormayacak hem de aktif gürültü engelleme özelliğiyle seni dünyadan soyutlayacak bu tüy gibi hafif kulaklığı kaçırma!",
+    "title": "Kütüphane Canavarı!",
+    "cta": "Sen hala sessizliği keşfetmedin mi?"
   },
   "long": {
     "label": "Uzun Prompt",
-    "prompt": "Ben üniversite öğrencisiyim. Kütüphanede çalışırken dış sesleri kesmek için ANC özellikli, uzun süre takınca rahatsız etmeyen hafif bir kulaklık arıyorum. Bütçem 3.000 TL civarı. Online dersler için mikrofonu da idare etsin. 3 seçenek öner ve kısaca nedenini söyle.",
-    "narration": "Uzun promptla ihtiyacını netleştiriyorsun: kütüphane odak, ANC, hafiflik, bütçe ve mikrofon. LetMeFind bu detayları tek ekranda anlaşılır bir öneriye dönüştürür.",
-    "title": "Detayı Ver, İsabeti Artır",
-    "cta": "Kısa mı uzun mu—hangisi sana daha çok uydu?"
+    "prompt": "Üniversiteye yeni başladım, otobüste ve kütüphanede ders çalışırken dışarıdaki sesleri kesecek, kafamı ağrıtmayacak kadar hafif ve bursumu tamamen bitirmeyecek fiyat performans odaklı bir ANC kulaklık arıyorum, ne önerirsiniz?",
+    "narration": "Vize haftasında toplu taşımada veya kantinde ders çalışmak artık işkence değil. Uzun pil ömrü, ultra hafif tasarımı ve bütçe dostu fiyatıyla bu ANC kulaklık tam aradığın kurtarıcı.",
+    "title": "Bütçe Dostu Sessizlik!",
+    "cta": "Sınavlara odaklanmaya hazır mısın?"
   }
 }
