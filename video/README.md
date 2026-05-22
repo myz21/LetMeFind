@@ -46,31 +46,27 @@ Optional:
 ### 2) Configure env
 In `video/.env`:
 - `GEMINI_API_KEY=...` (required for copy generation)
-- `ENABLE_TTS=1`
+- `ENABLE_TTS=1` (set 0 to disable TTS)
 
-For Google TTS auth (recommended in your shell):
+For Google TTS auth (ONLY needed if ENABLE_TTS=1):
 
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS="/absolute/path/to/service-account.json"
 ```
 
-### 3) Generate Turkish ad copy with Gemini
+### 3) Render (one command)
 
 ```bash
-npm run copy:generate
+npm run render:ab
 ```
 
-This writes `video/src/copy.json`.
-
-### 4) Render
-
-```bash
-npm run remotion:render:ab
-```
+This will:
+1) Generate Turkish ad copy with Gemini (writes `video/src/copy.json`)
+2) Render the MP4 with Remotion
 
 Output:
 - `video/out/letmefind_ab_youtube.mp4`
 
 ## Notes
 - TTS output is cached in `video/assets/tts/short.mp3` and `video/assets/tts/long.mp3`.
-- If you don't want TTS: set `ENABLE_TTS=0`.
+- If you only want Gemini copy (no voice): set `ENABLE_TTS=0`.
