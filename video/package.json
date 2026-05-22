@@ -1,13 +1,13 @@
 {
   "name": "letmefind-video",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "copy:generate": "node scripts/generate-copy.mjs",
     "remotion:preview": "remotion studio src/index.ts",
-    "remotion:render:ab": "remotion render src/index.ts LetMeFindAB out/letmefind_ab_youtube.mp4 --log=verbose",
-    "render:ab": "npm run copy:generate && npm run remotion:render:ab"
+    "remotion:render:demo": "remotion render src/index.ts LetMeFindDemo out/letmefind_demo_youtube.mp4 --log=verbose",
+    "render:demo": "npm run copy:generate && npm run remotion:render:demo"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.0.0",
