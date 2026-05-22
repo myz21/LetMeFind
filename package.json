@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
+    "start": "node backend/src/server.js",
     "dev": "node backend/src/server.js",
     "video:install": "cd video && npm install",
     "video:preview": "cd video && npm run remotion:preview",
