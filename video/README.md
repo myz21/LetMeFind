@@ -2,6 +2,16 @@
 
 This folder contains a Remotion project that renders a **60s YouTube (16:9)** ad-style demo video showing **Short Prompt vs Long Prompt** A/B.
 
+## Optional: Install Remotion Agent Skills
+If you are using Claude Code (or another coding agent), you can add the official Remotion Agent Skills to help the agent write stable Remotion code:
+
+```bash
+cd video
+npx skills add remotion-dev/skills
+```
+
+> This is optional. The project works without it.
+
 ## What it renders
 - Total: **60 seconds**
 - Segment A (0-30s): **Kısa Prompt**
