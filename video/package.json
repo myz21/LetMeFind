@@ -4,10 +4,11 @@
   "version": "0.3.0",
   "type": "module",
   "scripts": {
-    "copy:generate": "node scripts/generate-copy.mjs",
-    "remotion:preview": "remotion studio src/index.ts",
+    "copy:generate": "node --env-file=.env scripts/generate-copy.mjs",
+    "tts:generate": "node --env-file=.env scripts/generate-tts.mjs",
+    "remotion:preview": "npm run tts:generate && remotion studio src/index.ts",
     "remotion:render:demo": "remotion render src/index.ts LetMeFindDemo out/letmefind_demo_youtube.mp4 --log=verbose",
-    "render:demo": "npm run copy:generate && npm run remotion:render:demo"
+    "render:demo": "npm run copy:generate && npm run tts:generate && npm run remotion:render:demo"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",
