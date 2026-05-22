@@ -49,7 +49,7 @@ export const LetMeFindAB: React.FC<LetMeFindABProps> = (props) => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#0b0c10' }}>
-      <Audio src={requireAsset(props.music.file)} volume={musicVol} />
+      {/* <Audio src={requireAsset(props.music.file)} volume={musicVol} /> */}
 
       <SafeArea>
         <Segment
@@ -82,8 +82,3 @@ export const LetMeFindAB: React.FC<LetMeFindABProps> = (props) => {
     </AbsoluteFill>
   );
 };
-
-function requireAsset(file: string): string {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  return require(`../assets/${file}`);
-}

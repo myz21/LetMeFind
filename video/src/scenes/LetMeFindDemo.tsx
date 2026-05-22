@@ -42,8 +42,6 @@ export const LetMeFindDemo: React.FC<LetMeFindDemoProps> = (props) => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#0b0c10' }}>
-      <Audio src={requireAsset(props.music.file)} volume={musicVol} />
-
       <Sequence from={s0} durationInFrames={dIntro}>
         <IntroScene />
       </Sequence>
@@ -78,8 +76,3 @@ export const LetMeFindDemo: React.FC<LetMeFindDemoProps> = (props) => {
     </AbsoluteFill>
   );
 };
-
-function requireAsset(file: string): string {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  return require(`../../assets/${file}`);
-}
