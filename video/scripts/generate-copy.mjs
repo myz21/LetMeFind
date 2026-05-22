@@ -3,7 +3,7 @@ import path from 'node:path';
 
 const outPath = path.resolve(process.cwd(), 'src', 'copy.json');
 
-const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+const model = process.env.GEMINI_TEXT_MODEL || 'gemini-3.5-flash';
 const apiKey = process.env.GEMINI_API_KEY;
 
 if (!apiKey) {
@@ -55,7 +55,8 @@ async function generate() {
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
         temperature: 0.6,
-        maxOutputTokens: 512,
+        maxOutputTokens: 2048,
+        responseMimeType: "application/json"
       },
     }),
   });
@@ -68,14 +69,19 @@ async function generate() {
   const data = await res.json();
   const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join('')?.trim();
   if (!text) throw new Error('Empty response from Gemini');
+  console.log("Raw response:", text);
 
   let json;
   try {
     json = JSON.parse(text);
   } catch (e) {
-    // Attempt to strip code fences if model added them
-    const cleaned = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
-    json = JSON.parse(cleaned);
+    const match = text.match(/```json([\s\S]*?)```/i);
+    if (match) {
+      json = JSON.parse(match[1].trim());
+    } else {
+      const cleaned = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+      json = JSON.parse(cleaned);
+    }
   }
 
   fs.writeFileSync(outPath, JSON.stringify(json, null, 2), 'utf8');
