@@ -1,0 +1,64 @@
+-------------
+Version mismatch:
+Extra packages with wrong versions:
+  - zod: installed 3.25.76, required 4.3.6
+    See: https://zod.dev
+
+You may experience breakages such as:
+- React context and hooks not working
+- Type errors and feature incompatibilities
+- Failed renders and unclear errors
+
+To resolve:
+- Make sure your package.json has all Remotion packages pointing to the same version.
+- Remove the `^` character in front of a version to pin a package.
+- For zod, install exact version 4.3.6 (run: npx remotion add zod).
+- Run `npx remotion versions --log=verbose` to see the path of the modules resolved.
+-------------
+
+Remotion root directory: /home/neo/Desktop/GITHUB MYZ21/LetMeFind/video
+No config file loaded.
+Checking if src/index.ts is the entry file
+Loaded env file from /home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/.env.
+Entry point = /home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/src/index.ts (argument passed - found in cwd)
+Ensuring browser executable
+Ensured browser is available.
+[openBrowser()] Opening browser: gl = null, executable = /home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/.remotion/chrome-headless-shell/linux64/chrome-headless-shell-linux64/chrome-headless-shell, enableMultiProcessOnLinux = true
+Using setpriv --pdeathsig SIGKILL so the browser is killed if the Node parent process dies (Linux).
+Bundling 6%
+Bundling 15%
+Bundling 29%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 99%
+Bundling 100%
+
+Error: Module build failed: UnhandledSchemeError: Reading from "node:child_process" is not handled by plugins (Unhandled scheme).
+Webpack supports "data:" and "file:" URIs by default.
+You may need an additional plugin to handle "node:" URIs.
+    at /home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/webpack/lib/NormalModule.js:1062:13
+    at Hook.eval [as callAsync] (eval at create (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:6:1)
+    at /home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/webpack/lib/NormalModule.js:1056:10
+    at new Promise (<anonymous>)
+    at readResource (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/webpack/lib/NormalModule.js:1053:14)
+    at Object.processResource (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/webpack/lib/NormalModule.js:1075:28)
+    at processResource (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/loader-runner/lib/LoaderRunner.js:295:10)
+    at iteratePitchingLoaders (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/loader-runner/lib/LoaderRunner.js:358:9)
+    at runLoaders (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/loader-runner/lib/LoaderRunner.js:525:2)
+    at NormalModule._doBuild (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/webpack/lib/NormalModule.js:1038:3)
+undefined
+    at runWebpack (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/@remotion/bundler/dist/bundle.js:224:23)
+    at async Object.internalBundle (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/@remotion/bundler/dist/bundle.js:228:13)
+    at async bundleOnCli (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/@remotion/cli/dist/setup-cache.js:151:21)
+    at async bundleOnCliOrTakeServeUrl (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/@remotion/cli/dist/setup-cache.js:35:21)
+    at async renderVideoFlow (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/@remotion/cli/dist/render-flows/render.js:168:53)
+    at async render (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/@remotion/cli/dist/render.js:166:5)
+    at async cli (/home/neo/Desktop/GITHUB MYZ21/LetMeFind/video/node_modules/@remotion/cli/dist/index.js:98:13)
+Cleaning up...
+Cleanup job "Delete /tmp/remotion-webpack-bundle-ZlwrN0" done
+Cleanup done in 1ms
+Trying to kill browser process group -35528
