@@ -2,6 +2,11 @@
 
 **4-Stage Progressive Disclosure UI** with Real-Time Product Data & AI Analysis
 
+<video src="media/letmefind_demo_youtube.mp4" controls width="100%">
+  Tarayıcınız video etiketini desteklemiyor.
+</video>
+
+
 ## Overview
 
 LetMeFind is a sophisticated product discovery platform that guides users through a structured 4-stage journey from initial search to final comparison decision. Each stage progressively reveals data and insights, optimizing for decision-making clarity.
