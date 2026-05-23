@@ -59,12 +59,6 @@ function resolveStaticPath(requestPath) {
 
 const server = http.createServer(async (req, res) => {
   const requestUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
-  
-  if (requestUrl.pathname === '/') {
-    res.writeHead(302, { 'Location': '/frontend/discovery.html' });
-    res.end();
-    return;
-  }
 
   if (req.method === 'OPTIONS') {
     res.writeHead(204, {

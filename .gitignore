@@ -9,5 +9,4 @@
 3/
 4/
 .env
-video/node_modules/
-video/tmp/
+video/
