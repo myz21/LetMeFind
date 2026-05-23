@@ -22,7 +22,7 @@ export type LetMeFindDemoProps = {
 };
 
 export const LetMeFindDemo: React.FC<LetMeFindDemoProps> = (props) => {
-  const frame = useCurrentFrame(<);
+  const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
   // Single background music across the whole video
