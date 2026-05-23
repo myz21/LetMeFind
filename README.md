@@ -1,6 +1,6 @@
 # LetMeFind - Enterprise Product Discovery Platform
 
-[![LetMeFind Demo](media/letmefind_demo_live.webp)](media/letmefind_demo_youtube.mp4)
+[![LetMeFind Demo](media/letmefind_demo_youtube.mp4)](media/letmefind_demo_youtube.mp4)
 
 
 ## Overview
