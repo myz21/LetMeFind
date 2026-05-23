@@ -1,7 +1,6 @@
 # LetMeFind - Enterprise Product Discovery Platform
 
-[![Watch the video](https://raw.githubusercontent.com/myz21/LetMeFind/feature/remotion-youtube-ad-ab-tts/media/letmefind_demo_live.webp)](https://github.com/myz21/LetMeFind/blob/feature/remotion-youtube-ad-ab-tts/media/letmefind_demo_youtube.mp4)
-
+https://github.com/user-attachments/assets/c75d768e-0056-4076-9929-189b927f0d71
 
 ## Overview
 
