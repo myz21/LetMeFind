@@ -1,10 +1,6 @@
 # LetMeFind - Enterprise Product Discovery Platform
 
-**4-Stage Progressive Disclosure UI** with Real-Time Product Data & AI Analysis
-
-<video src="media/letmefind_demo_youtube.mp4" controls width="100%">
-  Tarayıcınız video etiketini desteklemiyor.
-</video>
+[![LetMeFind Demo](media/letmefind_demo_live.webp)](media/letmefind_demo_youtube.mp4)
 
 
 ## Overview
