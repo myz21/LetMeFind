@@ -11,6 +11,12 @@
 
 LetMeFind is a sophisticated product discovery platform that guides users through a structured 4-stage journey from initial search to final comparison decision. Each stage progressively reveals data and insights, optimizing for decision-making clarity.
 
+### Smart Prompt Understanding
+
+The built-in AI engine is highly capable of understanding even the shortest or vaguest user prompts. It automatically analyzes, contextualizes, and expands these brief inputs to deliver highly accurate product recommendations and insights without requiring complex search queries.
+
+![Smart Prompt Understanding Preview](media/letmefind_ab_preview.gif)
+
 ## 🎯 Features
 
 ✨ **Stage-Based Architecture**
